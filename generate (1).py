@@ -15,8 +15,8 @@ split = (length*9)//10
 print(length)
 with open(trainfile, 'w') as filehandle:
     for i in range(0,split):
-        filehandle.write(HOME+'/data/images/%s\n' % filenames[i])
+        filehandle.write(HOME+'/build/darknet/x64/data/images/%s\n' % filenames[i])
 
 with open(valfile, 'w') as filehandle:
     for i in range(split, length):
-        filehandle.write(HOME+'/data/images/%s\n'  % filenames[i])
+        filehandle.write(HOME+'/build/darknet/x64/data/images/%s\n'  % filenames[i])
