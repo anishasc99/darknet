@@ -3,3 +3,4 @@ train  = data/train.txt
 valid  = data/val.txt
 names = data/yolo.names
 backup = backup
+eval=coco
