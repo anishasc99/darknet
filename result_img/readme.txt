@@ -1,0 +1,1 @@
+For storing all cropped images of bounding boxes
