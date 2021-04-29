@@ -402,28 +402,28 @@ void draw_detections_v3(image im, detection *dets, int num, float thresh, char *
             if (top < 0) top = 0;
             if (bot > im.h - 1) bot = im.h - 1;
 
-            //int b_x_center = (left + right) / 2;
-            //int b_y_center = (top + bot) / 2;
-            //int b_width = right - left;
-            //int b_height = bot - top;
-            //sprintf(labelstr, "%d x %d - w: %d, h: %d", b_x_center, b_y_center, b_width, b_height);
+           // int b_x_center = (left + right) / 2;
+           // int b_y_center = (top + bot) / 2;
+           // int b_width = right - left;
+           // int b_height = bot - top;
+           // sprintf(labelstr, "%d x %d - w: %d, h: %d", b_x_center, b_y_center, b_width, b_height);
 
             // you should create directory: result_img
-            //static int copied_frame_id = -1;
-            //static image copy_img;
-            //if (copied_frame_id != frame_id) {
-            //    copied_frame_id = frame_id;
-            //    if (copy_img.data) free_image(copy_img);
-            //    copy_img = copy_image(im);
-            //}
-            //image cropped_im = crop_image(copy_img, left, top, right - left, bot - top);
-            //static int img_id = 0;
-            //img_id++;
-            //char image_name[1024];
-            //int best_class_id = selected_detections[i].best_class;
-            //sprintf(image_name, "result_img/img_%d_%d_%d_%s.jpg", frame_id, img_id, best_class_id, names[best_class_id]);
-            //save_image(cropped_im, image_name);
-            //free_image(cropped_im);
+            static int copied_frame_id = -1;
+            static image copy_img;
+            if (copied_frame_id != frame_id) {
+                copied_frame_id = frame_id;
+                if (copy_img.data) free_image(copy_img);
+                copy_img = copy_image(im);
+            }
+            image cropped_im = crop_image(copy_img, left, top, right - left, bot - top);
+            static int img_id = 0;
+            img_id++;
+            char image_name[1024];
+            int best_class_id = selected_detections[i].best_class;
+            sprintf(image_name, "result_img/img_%d_%d_%d_%s.jpg", frame_id, img_id, best_class_id, names[best_class_id]);
+            save_image(cropped_im, image_name);
+            free_image(cropped_im);
 
             if (im.c == 1) {
                 draw_box_width_bw(im, left, top, right, bot, width, 0.8);    // 1 channel Black-White
@@ -444,6 +444,7 @@ void draw_detections_v3(image im, detection *dets, int num, float thresh, char *
                         strcat(labelstr, names[j]);
                     }
                 }
+                
                 image label = get_label_v3(alphabet, labelstr, (im.h*.02));
                 //draw_label(im, top + width, left, label, rgb);
                 draw_weighted_label(im, top + width, left, label, rgb, 0.7);
@@ -514,6 +515,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
             //    class_id, (right + left) / 2, (bot - top) / 2, right - left, bot - top);
 
             printf("\n");
+            //printf("Bounding Box: Left=%d, Top=%d, Right=%d, Bottom=%d\n", left, top, right, bot); 
             draw_box_width(im, left, top, right, bot, width, red, green, blue);
             if (alphabet) {
                 image label = get_label(alphabet, names[class_id], (im.h*.03)/10);
